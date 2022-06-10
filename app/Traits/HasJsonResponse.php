@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Traits;
+
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
+
+trait HasJsonResponse
+{
+
+    /**
+     * @var int
+     */
+    protected int $RESPONSE_SUCCESS = 200;
+
+    /**
+     * @var int
+     */
+    protected int $RESPONSE_SERVER_ERROR = 500;
+
+    /**
+     * @var int
+     */
+    protected  int $RESPONSE_UNAUTHORIZED = 401;
+
+    /**
+     * @param array $data
+     * @param int $code
+     * @return Response
+     */
+    public function json(array $data, int $code = 200): Response
+    {
+        return response($data, $code);
+    }
+
+    /**
+     * @param JsonResource $resource
+     * @return Response
+     */
+    public function jsonResource(JsonResource $resource): Response
+    {
+        return response($resource, $this->RESPONSE_SUCCESS);
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    public function jsonSuccess(string $message = 'Operation performed successfully'): Response
+    {
+        return response(['message' => $message], $this->RESPONSE_SUCCESS);
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    public function jsonServerError(string $message = 'Internal server error'): Response
+    {
+        return response(['message' => $message], $this->RESPONSE_SERVER_ERROR);
+    }
+
+    /**
+     * @param string $message
+     * @return Response
+     */
+    private function jsonUnauthorized(string $message = 'Unauthorized access denied'): Response
+    {
+        return response(['message' => $message], $this->RESPONSE_UNAUTHORIZED);
+    }
+}
