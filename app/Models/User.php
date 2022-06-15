@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles, HasPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -44,4 +46,27 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return bool
+     */
+    public function isAdministrator()
+    {
+        return $this->hasRole('ADMINISTRATOR');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuperUser()
+    {
+        return $this->hasRole('SUPER_USER');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNormalUser() {
+        return $this->hasRole('NORMAL_USER');
+    }
 }
