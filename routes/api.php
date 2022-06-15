@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,7 +25,9 @@ Route::post(
 Route::get(
     '/sendsms',
     [ NotificationController::class, 'SendSMS' ]
-)->name('sendsms');
+)->name('sendsms')->middleware('verified');
+
+Auth::routes(['verify' => true]);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

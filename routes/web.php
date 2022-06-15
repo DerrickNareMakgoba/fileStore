@@ -19,3 +19,7 @@ Route::get('/', function () {
     Mail::to('nare.makgoba@hotmail.com')->send( new HelloMail());
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

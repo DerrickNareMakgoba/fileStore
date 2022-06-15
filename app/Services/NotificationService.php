@@ -10,7 +10,6 @@ class NotificationService
 {
     public function sendSMS()
     {
-
         $basic  = new \Vonage\Client\Credentials\Basic(Env::get('VONAGE_KEY'), Env::get('VONAGE_SECRET'));
         $client = new \Vonage\Client($basic);
 
